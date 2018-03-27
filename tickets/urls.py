@@ -10,6 +10,6 @@ from django.urls import path
 from .views import IndexView, LoginFormView
 
 urlpatterns = [
-	 path('', IndexView.as_view(), name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('', LoginFormView.as_view(), name='login'),
 ]
