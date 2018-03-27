@@ -1,0 +1,1 @@
+[{"model": "tickets.ticketpriority", "pk": 1, "fields": {"description": "Major", "display_order": 1}}, {"model": "tickets.ticketpriority", "pk": 2, "fields": {"description": "Normal", "display_order": 2}}, {"model": "tickets.ticketpriority", "pk": 3, "fields": {"description": "Minor", "display_order": 3}}]

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+	<div class="row">
+
+ 		<div class="col-xs-4 col-md-4"></div>
+
+		<div class="col-xs-4 col-md-4">
+			<div class="alert alert-info" role="alert">
+   	 		You must have a válid login to enter the ticket system. Ask your system administrator for a válid user and password.
+   		</div>	  
+		</div>
+		
+		<div class="col-xs-4 col-md-4"></div>
+
+	</div>
+	
+	<div class="row">
+	
+		<div class="col-xs-4 col-md-4"></div>
+  	
+  		<div class="col-xs-4 col-md-4">
+  
+   		<form role="form" method="post">
+      		{% csrf_token %}
+        		{% bootstrap_form form %}
+         	{% buttons %}
+            	<button type="submit" class="btn btn-primary">
+   					Login
+    			  	</button>
+    			  	<button type="cancel" class="btn btn-default">
+   					Cancel
+    			  	</button>
+           	{% endbuttons %}
+       	</form>
+   	</div>
+
+		<div class="col-xs-4 col-md-4"></div>
+
+	</div>
+ 
+{% endblock %}    
+    

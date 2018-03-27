@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+	
+{% block content %}
+
+	<div class="jumbotron">
+		<h1>Tickets System</h1>
+  		<p>Wellcome to the Tickets System. Here You can create tickets requesting bug solutions, tasts and new features</p>
+	</div>
+
+	<div class="row">
+ 		<div class="col-xs-4 col-md-4"></div>
+		<div class="col-xs-4 col-md-4">
+			<div class="alert alert-info" role="alert">
+				{% if not user.is_authenticated %}
+		   	 		You must have a válid login to enter the ticket system. Ask your system administrator for a válid user and password.
+   	 		{% endif %}
+   		</div>	  
+		</div>		
+		<div class="col-xs-4 col-md-4"></div>
+	</div>
+	
+{% endblock %}    
+    

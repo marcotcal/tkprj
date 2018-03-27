@@ -1,0 +1,1 @@
+[{"model": "tickets.tickettype", "pk": 1, "fields": {"description": "Bug", "display_order": 1}}, {"model": "tickets.tickettype", "pk": 2, "fields": {"description": "Task", "display_order": 2}}, {"model": "tickets.tickettype", "pk": 3, "fields": {"description": "Feature Request", "display_order": 3}}]
