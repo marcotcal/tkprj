@@ -1,0 +1,4 @@
+
+pip3 install Django==2.0.3
+pip3 install django-bootstrap-static
+pip3 install django-bootstrap3
