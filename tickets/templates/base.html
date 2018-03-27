@@ -1,8 +1,8 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 <html>
-	<head>
-	   <title>Tickets</title>
+   <head>
+      <title>Tickets</title>
      
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">            
       <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
@@ -12,7 +12,7 @@
       <script src="{% static 'javascript/jquery.js' %}"></script>
       <script src="{% static 'javascript/bootstrap.min.js' %}"></script>
       
-	</head>
+   </head>
    <body>
      
      <nav class="navbar navbar-inverse">
@@ -54,7 +54,7 @@
 
             {% if user.is_authenticated %}
             
-		   	<ul class="nav navbar-nav navbar-right">
+       	    <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -75,16 +75,16 @@
               <li><a href="../navbar-static-top/">Help</a></li>              
             </ul> 		
 
-   	 		{% endif %}
+   	    {% endif %}
             
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
 
-		<div class="container-fluid">
-  			{% block content %}
-     		{% endblock %}
-		</div>
+      <div class="container-fluid">
+  	  {% block content %}
+     	  {% endblock %}
+      </div>
   	    
   <body>
 </html>
