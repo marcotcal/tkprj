@@ -1,8 +1,9 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load i18n %}	
 <html>
-   <head>
-      <title>Tickets</title>
+	<head>
+	   <title>Tickets</title>
      
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">            
       <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
@@ -12,7 +13,7 @@
       <script src="{% static 'javascript/jquery.js' %}"></script>
       <script src="{% static 'javascript/bootstrap.min.js' %}"></script>
       
-   </head>
+	</head>
    <body>
      
      <nav class="navbar navbar-inverse">
@@ -28,22 +29,22 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">Knowledge Base</a></li>
+              <li class="active"><a href="./">Home</a></li>
+              <li><a href="#">{% trans 'Knowledge Base' %}</a></li>
               
               {% if user.is_authenticated %}
               
-              <li><a href="#">New Ticket</a></li>
+              <li><a href="#">{% trans 'New Ticket' %}</a></li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lists <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Lists' %} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Opened</a></li>
-                  <li><a href="#">Closed Last Days </a></li>
+                  <li><a href="#">{% trans 'Opened' %}</a></li>
+                  <li><a href="#">{% trans 'Closed Last Days' %} </a></li>
                   <li role="separator" class="divider"></li>
-                  <li class="dropdown-header">Statistics </li>
-                  <li><a href="#">Solution Times </a></li>
-                  <li><a href="#">Tickets Opened Last 12 Months </a></li>
-                  <li><a href="#">Tickets By Status Last 12 Months </a></li>
+                  <li class="dropdown-header">{% trans 'Statistics' %} </li>
+                  <li><a href="#">{% trans 'Solution Times' %} </a></li>
+                  <li><a href="#">{% trans 'Tickets Opened Last 12 Months' %} </a></li>
+                  <li><a href="#">{% trans 'Tickets By Status Last 12 Months' %} </a></li>
                   <li><a href="#"></a></li>
                 </ul>
               </li>
@@ -54,37 +55,41 @@
 
             {% if user.is_authenticated %}
             
-       	    <ul class="nav navbar-nav navbar-right">
+		   	<ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">  {{user}}  <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Edit Profile</a></li>
-                  <li><a href="#">Messages </a></li>
+                  <li><a href="#">{% trans 'Edit Profile' %}</a></li>
+                  <li><a href="#">{% trans 'Messages' %} </a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="#">Logout </a></li>
+                  <li><a href="./logout">{% trans 'Logout' %} </a></li>
                   <li><a href="#"></a></li>
                 </ul>
               </li>
-              <li><a href="../navbar-static-top/">Help</a></li>                 
+              <li><a href="../navbar-static-top/">{% trans 'Help' %}</a></li>                 
             </ul>
             
             {% else %}
 
             <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="./">Login<span class="sr-only">(current)</span></a></li>
-              <li><a href="../navbar-static-top/">Help</a></li>              
+              <li class="active"><a href="./login">{% trans 'Login' %}<span class="sr-only">(current)</span></a></li>
+              <li><a href="../navbar-static-top/">{% trans 'Help' %}</a></li>              
             </ul> 		
 
-   	    {% endif %}
+   	 		{% endif %}
             
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
 
-      <div class="container-fluid">
-  	  {% block content %}
-     	  {% endblock %}
-      </div>
+		<div class="container-fluid">
+  			{% block content %}
+     		{% endblock %}
+		</div>
+  	     
+   </div>
+     	    
+  	{% block javascript %}{% endblock %}    
   	    
   <body>
 </html>
