@@ -78,7 +78,7 @@ class Ticket(models.Model):
 
 class TicketMessage(models.Model):
 	
-	ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+	ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT)
 	creation_time = models.DateTimeField()
 	user = models.ForeignKey(User, on_delete=models.PROTECT)
 	message = models.TextField() 
