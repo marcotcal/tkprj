@@ -36,36 +36,13 @@ class TicketStatus(models.Model):
 		db_table = '"tickets"."ticket_status"'
 		ordering = (['display_order'])
 
-class Client(models.Model):
-
-	client_name = models.CharField(max_length=100)
-	is_active = models.BooleanField()
-	logo = models.BinaryField()
-
-	class Meta:
-		db_table = '"tickets"."client"'
-		ordering = (['client_name'])
-
-class User(models.Model):
-	
-	user_login = models.CharField(max_length=20)
-	user_name = models.CharField(max_length=50)
-	last_name = models.CharField(max_length=50)
-	client = models.ForeignKey(Client, on_delete=models.PROTECT)
-
-	def __str__(self):
-		return "{} {}".format(self.user_name, self.last_name)
-	
-	class Meta:
-		db_table = '"tickets"."user"'
-		ordering = (['user_name','last_name'])
-
 class Ticket(models.Model):
 
 	creation_time = models.DateTimeField()
 	begin_time = models.DateTimeField()
 	close_time = models.DateTimeField()
-	user = models.ForeignKey(User, on_delete=models.PROTECT)
+	user_name = models.CharField(max_length=50, null=True)
+	group_name = models.CharField(max_length=50, null=True)
 	description = models.CharField(max_length=50)
 	detailed = models.TextField()
 	status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT)
@@ -80,7 +57,7 @@ class TicketMessage(models.Model):
 	
 	ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT)
 	creation_time = models.DateTimeField()
-	user = models.ForeignKey(User, on_delete=models.PROTECT)
+	user_name = models.CharField(max_length=50, null=True)
 	message = models.TextField() 
 
 	class Meta:
