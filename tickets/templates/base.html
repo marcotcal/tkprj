@@ -12,7 +12,16 @@
       <script src="{% static 'javascript/jquery.isotope.min.js' %}"></script>
       <script src="{% static 'javascript/jquery.js' %}"></script>
       <script src="{% static 'javascript/bootstrap.min.js' %}"></script>
-      
+      <style type="text/css">      	
+      	body {
+				margin:0;
+				padding:0;
+				overflow-x:hidden;      	
+      	}
+			.navbar>.container .navbar-brand {
+  				margin-left: 0;
+			}
+      </style>
 	</head>
    <body>
      
@@ -30,10 +39,11 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="./">Home</a></li>
-              <li><a href="#">{% trans 'Knowledge Base' %}</a></li>
-              
+              <li><a href="#">{% trans 'Knowledge Base' %}</a></li>              
               {% if user.is_authenticated %}
-              
+              {% if user.is_staff %}
+              <li><a href="#">{% trans 'Administration' %}</a></li>
+              {% endif %}
               <li><a href="#">{% trans 'New Ticket' %}</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Lists' %} <span class="caret"></span></a>

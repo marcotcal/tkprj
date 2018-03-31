@@ -10,8 +10,16 @@
   		<p>{% trans 'Wellcome to the Tickets System. Here You can create tickets requesting bug solutions, tasts and new features' %}</p>
 	</div>
 
+	<div class='container'>
 	<div class="row">
- 		<div class="col-xs-3 col-md-3"></div>
+ 		<div class="col-xs-3 col-md-3">
+ 			{% if user.is_authenticated %}
+ 				<h4>{% trans 'My Group(s)' %}</h4>
+ 				{% for group in user.groups.all %}
+ 					<h5>{{group.name}}</h5>
+ 				{% endfor %}
+ 			{% endif %}
+ 		</div>
 		<div class="col-xs-6 col-md-6">									
 				{% if not user.is_authenticated %}
 					<div class="alert alert-info" role="alert">					   
@@ -20,6 +28,7 @@
    	 		{% endif %}   	 			   			  
 		</div>		
 		<div class="col-xs-3 col-md-3"></div>
+	</div>
 	</div>
 	
 {% endblock %}    
