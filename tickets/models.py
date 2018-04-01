@@ -7,6 +7,7 @@
 	Notes	: You must create the database witha schema tickets before migrate
 '''
 from django.db import models
+from django.contrib.auth.models import Group, User
 
 
 class TicketPriority(models.Model):
@@ -41,8 +42,8 @@ class Ticket(models.Model):
 	creation_time = models.DateTimeField()
 	begin_time = models.DateTimeField()
 	close_time = models.DateTimeField()
-	user_name = models.CharField(max_length=50, null=True)
-	group_name = models.CharField(max_length=50, null=True)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+	group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)	
 	description = models.CharField(max_length=50)
 	detailed = models.TextField()
 	status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT)
@@ -56,8 +57,8 @@ class Ticket(models.Model):
 class TicketMessage(models.Model):
 	
 	ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT)
-	creation_time = models.DateTimeField()
-	user_name = models.CharField(max_length=50, null=True)
+	creation_time = models.DateTimeField()	
+	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 	message = models.TextField() 
 
 	class Meta:

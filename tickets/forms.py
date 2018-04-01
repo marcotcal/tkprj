@@ -8,10 +8,11 @@ from __future__ import unicode_literals
 from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
 from django.contrib.auth import authenticate
+from django.utils.translation import gettext as _
 
 class LoginForm(forms.Form):
-	username = forms.CharField(required=True, label='User Name')
-	password = forms.CharField(widget=forms.PasswordInput(), required=True, label='Password')
+	username = forms.CharField(required=True, label=_('User Name'))
+	password = forms.CharField(widget=forms.PasswordInput(), required=True, label=_('Password'))
 	user = None
 	def get_user(self):
 		return self.user   	
