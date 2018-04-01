@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load i18n %}	
+{% block content %}
+
+	<div class='container'>
+	<div class="row"> 		
+		<div class="col-xs-12 col-md-12">
+			{% if user.is_authenticated %}
+ 				{% if valid_group %}
+ 					<h4><b>{% trans 'Tickets' %}</b>: {{group_name}}</h4>
+ 					
+ 					
+ 					
+				{% else %}
+					<div class="alert alert-danger" role="alert">					   
+		   	 		{% trans 'You do not have access to this group.' %}
+		   	 	</div>
+				{% endif %} 					  								
+ 			{% endif %}		
+		</div>				
+	</div>
+	</div>
+	
+{% endblock %}    
+    

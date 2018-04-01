@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 {% load i18n %}	
+{% load tickets_extras %}
 {% block content %}
 
 	<div class="jumbotron">
@@ -16,7 +17,7 @@
  			{% if user.is_authenticated %}
  				<h4>{% trans 'My Group(s)' %}</h4>
  				{% for group in user.groups.all %}
- 					<h5>{{group.name}}</h5>
+ 					<h5><a href='./list/group/{{group.id}}'>{{group.name}}</h5>
  				{% endfor %}
  			{% endif %}
  		</div>

@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 {% load bootstrap3 %}
-
+{% load i18n %}	
 {% block content %}
 
 	<div class="row">
@@ -16,9 +16,9 @@
         		{% bootstrap_form form %}
          	{% buttons %}
             	<button type="submit" class="btn btn-primary">
-   					Login
+   					{% trans 'Login' %}
     			  	</button>
-    			  	<a href="{{ view.get_success_url }}" class="btn btn-default">Cancel</a>
+    			  	<a href="{{ view.get_success_url }}" class="btn btn-default">{% trans 'Cancel' %}</a>
            	{% endbuttons %}
        	</form>       	
    	</div>
