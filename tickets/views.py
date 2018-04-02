@@ -6,17 +6,27 @@
 '''
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import LoginForm
+from .forms import LoginForm, TicketForm
 from django.views.generic import FormView, RedirectView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView
+from .models import Ticket
+from django.shortcuts import get_object_or_404
 
-class ListView(TemplateView):
+class TicketList(ListView):
 	template_name = 'list.html'
-				
+	model = Ticket 
+	context_object_name = "ticket_list"	
+	paginate_by = 5
+								
+	def get_queryset(self):			 	
+		return Ticket.objects.filter(group=self.kwargs['group_id']).order_by('priority','creation_time')					
+					
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
 		group_id	= self.kwargs['group_id']
@@ -26,7 +36,7 @@ class ListView(TemplateView):
 		
 		if user in users_in_group:
 			context.update({"valid_group":True})
-			name = Group.objects.get(pk=group_id).name
+			name = Group.objects.get(pk=group_id).name									
 		else:
 			context.update({"valid_group":False})
 			name = ""
@@ -36,10 +46,10 @@ class ListView(TemplateView):
 
 class IndexView(TemplateView):
 	template_name = 'index.html'
-	def __init__(self):
-		self.teste_var = 'Isto é um teste'
-        
+	        
 	def get_context_data(self, **kwargs):
-		context = super(IndexView, self).get_context_data(**kwargs)
-		context.update({'teste_var': self.teste_var})
+		context = super(IndexView, self).get_context_data(**kwargs)		
 		return context  	
+	
+		
+	

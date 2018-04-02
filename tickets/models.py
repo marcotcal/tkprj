@@ -40,8 +40,8 @@ class TicketStatus(models.Model):
 class Ticket(models.Model):
 
 	creation_time = models.DateTimeField()
-	begin_time = models.DateTimeField()
-	close_time = models.DateTimeField()
+	begin_time = models.DateTimeField(null=True)
+	close_time = models.DateTimeField(null=True)
 	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 	group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)	
 	description = models.CharField(max_length=50)

@@ -9,6 +9,7 @@ from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext as _
+from .models import Ticket
 
 class LoginForm(forms.Form):
 	username = forms.CharField(required=True, label=_('User Name'))
@@ -24,3 +25,9 @@ class LoginForm(forms.Form):
 		if not self.user or not self.user.is_active:
 			raise forms.ValidationError("Sorry, that login was invalid. Please try again.")
 			return self.cleaned_data
+			
+class TicketForm(forms.Form):
+	
+	class Meta:
+		model = Ticket		
+		fields = "__all__"		
