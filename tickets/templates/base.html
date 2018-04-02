@@ -44,7 +44,7 @@
               {% if user.is_staff %}
               <li><a href="#">{% trans 'Administration' %}</a></li>
               {% endif %}
-              <li><a href="#">{% trans 'New Ticket' %}</a></li>
+              <li><a href="/tickets/ticket/add">{% trans 'New Ticket' %}</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Lists' %} <span class="caret"></span></a>
                 <ul class="dropdown-menu">

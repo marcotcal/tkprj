@@ -11,9 +11,49 @@
 			{% if user.is_authenticated %}
  				{% if valid_group %}
  					<h4><b>{% trans 'Tickets' %}</b>: {{group_name}}</h4>
- 					
- 					
- 					
+				   {% if ticket_list %}
+    					<table id="tickets" class="table">
+    						<tr>
+    							<th>{% trans 'Created At' %}</th>
+    							<th>{% trans 'User' %}</th>
+    							<th>{% trans 'Status' %}</th>
+    							<th>{% trans 'Priority' %}</th>
+    							<th>{% trans 'Type' %}</th>
+    							<th>{% trans 'Begin At' %}</th>
+    							<th>{% trans 'Description' %}</th>
+    						</tr>	
+        					{% for ticket in ticket_list %}
+            				<tr>
+									<td>{{ ticket.creation_time|date:'d-m-Y H:i'}}</td>
+									<td>{{ ticket.user.username }}</td>
+									<td>{{ ticket.status.description }}</td>
+									<td>{{ ticket.priority.description }}</td>
+									<td>{{ ticket.ticket_type.description }}</td>            					
+            					<td>{{ ticket.begin_time|date:'d-m-Y H:i'}}</td>                				                				
+                				<td>{{ ticket.description }}</td>                				                				
+            				</tr>
+        					{% endfor %}
+    					</table>
+    					{# .... **Now the pagination section** .... #}
+    					{% if is_paginated %}
+        					<div class="pagination">
+            				<span class="page-links">
+                				{% if page_obj.has_previous %}
+                    				<a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                				{% endif %}
+                				<span class="page-current">
+                    				Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                				</span>
+                				{% if page_obj.has_next %}
+                    				<a href="?page={{ page_obj.next_page_number }}">next</a>
+                				{% endif %}
+            				</span>
+        					</div>
+    					{% endif %}
+					{% else %}
+    					<h3>Tikets</h3>
+    					<p>No Tickets Found!!! :(</p>
+					{% endif %} 					 					
 				{% else %}
 					<div class="alert alert-danger" role="alert">					   
 		   	 		{% trans 'You do not have access to this group.' %}
