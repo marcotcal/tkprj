@@ -23,7 +23,7 @@ class LoginForm(forms.Form):
 		password = self.cleaned_data.get('password')   
 		self.user = authenticate(username=username, password=password)	 
 		if not self.user or not self.user.is_active:
-			raise forms.ValidationError("Sorry, that login was invalid. Please try again.")
+			raise forms.ValidationError(_("Sorry, that login was invalid. Please try again."))
 			return self.cleaned_data
 			
 class TicketForm(forms.Form):
