@@ -10,26 +10,30 @@ from .forms import LoginForm, TicketForm
 from django.views.generic import FormView, RedirectView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
-from django.views.generic.base import TemplateView
+
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
-from .models import Ticket
+from django.views.generic.detail import DetailView
+from django.views.generic.base import TemplateView
+
+from .models import Ticket, TicketMessage
 from django.shortcuts import get_object_or_404
 
 class TicketList(ListView):
-	template_name = 'list.html'
+	template_name = "list.html"
 	model = Ticket 
 	context_object_name = "ticket_list"	
-	paginate_by = 5
+	paginate_by = 10
 								
 	def get_queryset(self):			 	
-		return Ticket.objects.filter(group=self.kwargs['group_id']).order_by('priority','creation_time')					
+		return Ticket.objects.filter(group=self.kwargs["group_id"]).order_by("priority","creation_time")					
 					
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
-		group_id	= self.kwargs['group_id']
+		group_id	= self.kwargs["group_id"]
 		user = self.request.user
 		
 		users_in_group = Group.objects.get(pk=group_id).user_set.all()		
@@ -41,15 +45,29 @@ class TicketList(ListView):
 			context.update({"valid_group":False})
 			name = ""
 									
-		context.update({'group_name':name})
+		context.update({"group_name":name})
 		return context
 
 class IndexView(TemplateView):
-	template_name = 'index.html'
+	template_name = "index.html"
 	        
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)		
 		return context  	
 	
-		
+class ShowTicket(DetailView):
+	template_name = "ticket.html"
+	model = Ticket
+	
+	def get_context_data(self, **kwargs):
+		context = super(ShowTicket, self).get_context_data(**kwargs)
+		context['ticket_messages'] = TicketMessage.objects.filter(ticket=self.kwargs['pk']).order_by('creation_time')        
+		return context	
+	
+	
+	
+	
+	
+	
+
 	
