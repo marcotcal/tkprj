@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load i18n %}	
+{% load tickets_extras %}
+{% block content %}
+
+	<div class='container'>
+		<div class="row">
+ 			<div class="col-xs-4 col-md-4">			
+ 				<table class="table">
+ 					<tr>
+ 						<th>{% trans 'Created At' %}</th>
+ 						<td>{{ticket.creation_time|date:'d-m-Y H:i'}}</td> 					
+ 					</tr>
+ 					<tr>
+ 						<th>{% trans 'Description' %}</th>
+ 						<td>{{ticket.description}}</td> 					
+ 					</tr>
+ 					<tr>
+ 						<th>{% trans 'State' %}</th>
+ 						<td>{{ ticket.status.description }}</td> 					
+ 					</tr> 				
+ 					<tr>
+ 						<th>{% trans 'Priority' %}</th>
+ 						<td>{{ ticket.priority.description }}</td> 					
+ 					</tr>
+ 					<tr>
+ 						<th>{% trans 'Type' %}</th>
+ 						<td>{{ ticket.ticket_type.description }}</td> 					
+ 					</tr>
+ 					<tr>
+ 						<th>{% trans 'Begin At' %}</th>
+ 						<td>{{ ticket.begin_time|date:'d-m-Y H:i'}}</td> 					
+ 					</tr>
+ 					<tr>
+ 						<th>{% trans 'User' %}</th>
+ 						<td>{{ ticket.user.username }}</td> 					
+ 					</tr> 					
+ 				</table>
+ 				<table class="table">
+					<tr>
+						<th>{% trans 'Details' %}</th>
+					</tr>
+					<tr>
+						<td>{{ticket.detailed}}
+					</tr>
+				</table>										 			
+ 			</div>
+ 			<div class="col-xs-8 col-md-8">
+ 				{% if ticket_messages %} 					
+ 					<p><button type="button" class="btn btn-primary">{% trans 'New Message' %}</button></p> 					 					
+ 					<div class="panel panel-default">
+						<div class="panel-heading">{% trans 'Discussion Board' %}</div>
+  						<div class="panel-body">
+    						
+    						<table class='table'>
+ 								<tr>
+ 									<th>{% trans 'Written In' %}</th>
+ 									<th>{% trans 'User' %}</th>
+ 									<th>{% trans 'Message' %}</th> 						
+ 								</tr>																	
+								{% for tm in ticket_messages %}
+									<tr>
+										<td>{{tm.creation_time|date:'d-m-Y H:i'}}</td>
+										<td>{{tm.user}}</td>
+										<td>{{tm.message}}</td>
+									</tr>										
+								{%endfor %}						
+							</table>
+    						
+  						</div>
+					</div>	 														
+				{% endif %} 			
+ 			</div> 			
+		</div>					
+	</div>
+	
+{% endblock %}    
+    
+    
