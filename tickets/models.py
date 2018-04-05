@@ -14,6 +14,9 @@ class TicketPriority(models.Model):
 	
 	description = models.CharField(max_length=50)
 	display_order = models.PositiveIntegerField()
+	
+	def __str__(self):
+		return self.description
 
 	class Meta:
 		db_table = '"tickets"."ticket_priority"'
@@ -24,6 +27,9 @@ class TicketType(models.Model):
 	description = models.CharField(max_length=50)
 	display_order = models.PositiveIntegerField()
 
+	def __str__(self):
+		return self.description
+
 	class Meta:
 		db_table = '"tickets"."ticket_type"'
 		ordering = (['display_order'])
@@ -32,6 +38,9 @@ class TicketStatus(models.Model):
 	
 	description = models.CharField(max_length=50)
 	display_order = models.PositiveIntegerField()
+	
+	def __str__(self):
+		return self.description
 
 	class Meta:
 		db_table = '"tickets"."ticket_status"'

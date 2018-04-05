@@ -6,7 +6,7 @@
 '''
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import LoginForm, TicketForm
+from .forms import LoginForm, TicketForm, TicketMessageForm
 from django.views.generic import FormView, RedirectView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
@@ -21,6 +21,9 @@ from django.views.generic.base import TemplateView
 
 from .models import Ticket, TicketMessage
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
+
+import datetime
 
 class TicketList(ListView):
 	template_name = "list.html"
@@ -64,10 +67,46 @@ class ShowTicket(DetailView):
 		context['ticket_messages'] = TicketMessage.objects.filter(ticket=self.kwargs['pk']).order_by('creation_time')        
 		return context	
 	
-	
-	
-	
-	
-	
+class CreateTicket(CreateView):
+	form_class = TicketForm
+	template_name = 'ticketform.html'
 
+	def __init__(self):
+		self.group_id = None
+
+	def get_initial(self):
+		fields = super(CreateTicket, self).get_initial()		
+		fields['creation_time'] = datetime.datetime.now()
+		fields['begin_time'] = None
+		fields['close_time'] = None
+		fields['status'] = 1
+		fields['priority'] = 1
+		fields['group'] = self.request.user.groups.all()[0]	 
+		fields['user'] = self.request.user
+
+		return fields		
+					
+	def form_valid(self, form):
+		self.object = form.save()
+		self.group_id = self.object.group.id
+		return HttpResponseRedirect(self.get_success_url())					
+					
+	def get_success_url(self):		
+		return reverse('list',kwargs = {'group_id':self.group_id})
+			
+class CreateTicketMessage(CreateView):
+	form_class = TicketMessageForm	
+	template_name = 'ticketmessageform.html'
+	
+	def get_initial(self):
+		fields = super(CreateTicketMessage, self).get_initial()
+		fields['ticket'] = self.kwargs["ticket_id"]
+		fields['creation_time'] = datetime.datetime.now()
+		fields['user'] = self.request.user
+
+		return fields		
+	
+	def get_success_url(self):		
+		return reverse('ticket-detail',kwargs = {'pk':self.kwargs["ticket_id"]})
+		
 	
