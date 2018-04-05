@@ -10,19 +10,13 @@
 		<div class="col-xs-4 col-md-4"></div>
   	
   		<div class="col-xs-4 col-md-4">
-  			{% if form.errors %}    
-    			{%	for error in form.non_field_errors %}
-        			<div class="alert alert-danger">
-           	 	<strong>{{ error|escape }}</strong>
-        			</div>
-    			{% endfor %}
-			{% endif %}
+  			<h3>{% trans 'Ticket Message' %}</h3>
    		<form role="form" method="post">
       		{% csrf_token %}
         		{% bootstrap_form form %}
          	{% buttons %}
             	<button type="submit" class="btn btn-primary">
-   					{% trans 'Add Ticket' %}
+   					{% trans 'Add Message' %}
     			  	</button>
     			  	<a href="{{ view.get_success_url }}" class="btn btn-default">{% trans 'Cancel' %}</a>
            	{% endbuttons %}
