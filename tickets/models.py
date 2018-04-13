@@ -8,6 +8,7 @@
 '''
 from django.db import models
 from django.contrib.auth.models import Group, User
+from django.utils.translation import gettext as _
 
 
 class TicketPriority(models.Model):
@@ -48,14 +49,14 @@ class TicketStatus(models.Model):
 
 class Ticket(models.Model):
 
-	creation_time = models.DateTimeField()
+	creation_time = models.DateTimeField(verbose_name=_("Creation Time"))
 	begin_time = models.DateTimeField(null=True)
 	close_time = models.DateTimeField(null=True)
 	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 	group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)	
 	description = models.CharField(max_length=50)
 	detailed = models.TextField()
-	status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT)
+	status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT,verbose_name=_("State"))
 	priority = models.ForeignKey(TicketPriority, on_delete=models.PROTECT)
 	ticket_type = models.ForeignKey(TicketType, on_delete=models.PROTECT)
 	

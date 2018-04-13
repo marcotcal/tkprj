@@ -6,7 +6,7 @@
 '''
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import LoginForm, TicketForm, TicketMessageForm
+from .forms import LoginForm, TicketForm, TicketMessageForm, ChangeTicketStatusForm
 from django.views.generic import FormView, RedirectView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
@@ -108,5 +108,18 @@ class CreateTicketMessage(CreateView):
 	
 	def get_success_url(self):		
 		return reverse('ticket-detail',kwargs = {'pk':self.kwargs["ticket_id"]})
+		
+class ChangeTicketStatus(UpdateView):
+	form_class = ChangeTicketStatusForm
+	template_name = 'ticketform.html'
+	model = Ticket 
+	
+	def get_initial(self):
+			fields = super(ChangeTicketStatus, self).get_initial()
+			fields['begin_time'] = datetime.datetime.now()			
+			return fields;
+	
+	def get_success_url(self):		
+		return reverse('ticket-detail',kwargs = {'pk':self.kwargs["pk"]})	
 		
 	

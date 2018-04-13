@@ -36,7 +36,16 @@ class TicketForm(ModelForm):
 			'creation_time' : forms.HiddenInput,
 			'user' : forms.HiddenInput,		
 		}				
-		
+
+class ChangeTicketStatusForm(ModelForm):
+	
+	class Meta:
+		model = Ticket
+		fields = ["id","begin_time","status","description","detailed",]
+		widgets = {			
+			'begin_time' : forms.HiddenInput,		
+		}				
+				
 class TicketMessageForm(ModelForm):
 	
 	class Meta:
