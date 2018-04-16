@@ -40,6 +40,10 @@
  							<th>{% trans 'Begin At' %}</th>
  							<td>{{ ticket.begin_time|date:'d-m-Y H:i'}}</td> 					
 	 					</tr>
+	 					<tr>
+ 							<th>{% trans 'Closed At' %}</th>
+ 							<td>{{ ticket.close_time|date:'d-m-Y H:i'}}</td> 					
+	 					</tr>
  						<tr>
  							<th>{% trans 'User' %}</th>
  							<td>{{ ticket.user.username }}</td> 					
@@ -60,11 +64,36 @@
  			
  			<div class="col-xs-8 col-md-8">
  				<p>
- 					<a href="/tickets/ticket/message/add/{{ticket.id}}" class="btn btn-primary" role="button">{% trans 'New Message' %}</a>											
- 					<a href="/tickets/ticket/start/{{ticket.id}}"  style="width:100px;" class="btn btn-info" role="button">{% trans 'Start' %}</a>
- 					<a href="/tickets/ticket/suspend/{{ticket.id}}"  style="width:100px;" class="btn btn-warning" role="button">{% trans 'Suspend' %}</a>
- 					<a href="/tickets/ticket/stop/{{ticket.id}}"  style="width:100px;" class="btn btn-danger" role="button">{% trans 'Stop' %}</a>
- 					<a href="/tickets/ticket/close/{{ticket.id}}"  style="width:100px;" class="btn btn-success" role="button">{% trans 'Close' %}</a>
+ 					<a href="/tickets/ticket/message/add/{{ticket.id}}" class="btn btn-primary" role="button">{% trans 'New Message' %}</a>
+ 			 		{% if ticket.status.id == 1 %}  <!-- Opened -->
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/2" style="width:100px;" class="btn btn-info" role="button">{% trans 'Start' %}</a>
+ 			 		{% endif %}
+ 			 		{% if ticket.status.id == 2 %}  <!-- In Process -->
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/3" style="width:100px;" class="btn btn-warning" role="button">{% trans 'Suspend' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/4" style="width:100px;" class="btn btn-danger" role="button">{% trans 'Cancel' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/5" style="width:100px;" class="btn btn-info" role="button">{% trans 'In Test' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/6" style="width:100px;" class="btn btn-success" role="button">{% trans 'Close' %}</a>         
+ 			 		{% endif %}
+ 			 		{% if ticket.status.id == 3 %}  <!-- Stalled -->
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/2" style="width:100px;" class="btn btn-info" role="button">{% trans 'Start' %}</a>
+ 			 		{% endif %}
+ 			 		{% if ticket.status.id == 4 %}  <!-- Cancelled -->
+ 			 		
+ 			 		{% endif %}
+ 			 		{% if ticket.status.id == 5 %}  <!-- In Test -->
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/3" style="width:100px;" class="btn btn-warning" role="button">{% trans 'Suspend' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/4" style="width:100px;" class="btn btn-danger" role="button">{% trans 'Cancel' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/6" style="width:100px;" class="btn btn-success" role="button">{% trans 'Close' %}</a>
+ 			 		{% endif %}
+ 			 		{% if ticket.status.id == 6 %}  <!-- Closed -->
+ 			 			 <a href="/tickets/ticket/status/{{ticket.id}}/7" style="width:100px;" class="btn btn-info" role="button">{% trans 'Re-Open' %}</a> 
+ 			 		{% endif %}				 		
+ 			 		{% if ticket.status.id == 7 %}  <!-- Re-Opened -->
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/3" style="width:100px;" class="btn btn-warning" role="button">{% trans 'Suspend' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/4" style="width:100px;" class="btn btn-danger" role="button">{% trans 'Cancel' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/5" style="width:100px;" class="btn btn-info" role="button">{% trans 'In Test' %}</a>
+ 			 		    <a href="/tickets/ticket/status/{{ticket.id}}/6" style="width:100px;" class="btn btn-success" role="button">{% trans 'Close' %}</a>
+ 			 		{% endif %}			   								 					
  				</p> 				 					 					 					 					
  				<div class="panel panel-default">
 					<div class="panel-heading">{% trans 'Discussion Board' %}</div>
@@ -86,7 +115,30 @@
 							</table>
     					{% endif %}	
   					</div>
-				</div>	 																		 			
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">{% trans 'Status Changes Log' %}</div>
+  					<div class="panel-body">
+  						{% if ticket_status_log %}
+    						<table class='table'>
+ 								<tr>
+ 									<th>{% trans 'Changed' %}</th>
+ 									<th>{% trans 'User' %}</th>
+ 									<th>{% trans 'From Status' %}</th>
+ 									<th>{% trans 'To Status' %}</th> 									 						
+ 								</tr>																	
+								{% for tl in ticket_status_log %}
+									<tr>
+										<td>{{tl.log_time|date:'d-m-Y H:i'}}</td>
+										<td>{{tl.user}}</td>
+										<td>{{tl.status_from.description}}</td>
+										<td>{{tl.status_to.description}}</td>										
+									</tr>										
+								{%endfor %}						
+							</table>
+    					{% endif %}	
+  					</div>
+  				</div>		 																		 			
  			</div> 			
 		</div>					
 	</div>

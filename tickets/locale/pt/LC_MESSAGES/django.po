@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-02 20:51+0100\n"
+"POT-Creation-Date: 2018-04-13 14:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: tickets/forms.py:15
+#: tickets/forms.py:16
 msgid "User Name"
 msgstr "Utilizador"
 
-#: tickets/forms.py:16
+#: tickets/forms.py:17
 msgid "Password"
 msgstr "Senha"
 
-#: tickets/forms.py:26
+#: tickets/forms.py:27
 msgid "Sorry, that login was invalid. Please try again."
-msgstr "Desculpe, este nome de utilizador e password são inválidos. Tente novamente."
+msgstr ""
+"Desculpe, este nome de utilizador e password são inválidos. Tente novamente."
+
+#: tickets/models.py:16 tickets/models.py:28 tickets/models.py:40
+#: tickets/models.py:57 tickets/templates/list.html:24
+#: tickets/templates/ticket.html:24
+msgid "Description"
+msgstr "Descrição"
+
+#: tickets/models.py:52
+#, fuzzy
+#| msgid "Solution Times"
+msgid "Creation Time"
+msgstr "Tempos de Solução"
+
+#: tickets/models.py:53
+#, fuzzy
+#| msgid "Begin At"
+msgid "Begin Time"
+msgstr "Iníciado Em"
+
+#: tickets/models.py:54
+msgid "Close Time"
+msgstr "Fecho"
+
+#: tickets/models.py:55 tickets/templates/list.html:19
+#: tickets/templates/ticket.html:48 tickets/templates/ticket.html:80
+#, fuzzy
+#| msgid "User Name"
+msgid "User"
+msgstr "Utilizador"
+
+#: tickets/models.py:56
+#, fuzzy
+#| msgid "My Group(s)"
+msgid "Group"
+msgstr "Meus Grupos"
+
+#: tickets/models.py:58
+msgid "Detailed Description"
+msgstr "Descrição Detalhada"
+
+#: tickets/models.py:59 tickets/templates/list.html:20
+#: tickets/templates/ticket.html:28
+msgid "State"
+msgstr "Estado"
+
+#: tickets/models.py:60 tickets/templates/list.html:21
+#: tickets/templates/ticket.html:32
+msgid "Priority"
+msgstr "Prioridade"
+
+#: tickets/models.py:61
+msgid "Ticket Type"
+msgstr "Tipo de Ticket"
 
 #: tickets/templates/base.html:42
 msgid "Knowledge Base"
@@ -91,6 +145,7 @@ msgid "Login"
 msgstr "Entrar"
 
 #: tickets/templates/index.html:10
+#, fuzzy
 msgid "Tickets System"
 msgstr "Sistema de Tickets"
 
@@ -120,36 +175,17 @@ msgstr ""
 msgid "Tickets"
 msgstr "Novo Ticket"
 
-#: tickets/templates/list.html:18 tickets/templates/ticket.html:14
+#: tickets/templates/list.html:18 tickets/templates/ticket.html:20
 msgid "Created At"
 msgstr "Aberto Em"
 
-#: tickets/templates/list.html:19 tickets/templates/ticket.html:38
-#: tickets/templates/ticket.html:61
-#, fuzzy
-#| msgid "User Name"
-msgid "User"
-msgstr "Utilizador"
-
-#: tickets/templates/list.html:20 tickets/templates/ticket.html:22
-msgid "State"
-msgstr "Estado"
-
-#: tickets/templates/list.html:21 tickets/templates/ticket.html:26
-msgid "Priority"
-msgstr "Prioridade"
-
-#: tickets/templates/list.html:22 tickets/templates/ticket.html:30
+#: tickets/templates/list.html:22 tickets/templates/ticket.html:36
 msgid "Type"
 msgstr "Tipo"
 
-#: tickets/templates/list.html:23 tickets/templates/ticket.html:34
+#: tickets/templates/list.html:23 tickets/templates/ticket.html:40
 msgid "Begin At"
 msgstr "Iníciado Em"
-
-#: tickets/templates/list.html:24 tickets/templates/ticket.html:18
-msgid "Description"
-msgstr "Descrição"
 
 #: tickets/templates/list.html:101
 msgid "There is no tickets to show."
@@ -159,36 +195,73 @@ msgstr "Não há tickets para mostrar."
 msgid "You do not have access to this group."
 msgstr "Você não tem acesso à este grupo."
 
-#: tickets/templates/loginform.html:21 tickets/templates/ticketform.html:21
+#: tickets/templates/loginform.html:21 tickets/templates/ticketform.html:27
+#: tickets/templates/ticketmessageform.html:21
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: tickets/templates/ticket.html:13
+msgid "Back to List"
+msgstr "Voltar à Lista"
+
+#: tickets/templates/ticket.html:16
+msgid "Ticket Information"
+msgstr "Informação do Ticket"
+
 #: tickets/templates/ticket.html:44
+msgid "Closed At"
+msgstr "Fechado Em"
+
+#: tickets/templates/ticket.html:56
 msgid "Details"
 msgstr "Detalhes"
 
-#: tickets/templates/ticket.html:53
-#, fuzzy
-#| msgid "Messages"
+#: tickets/templates/ticket.html:67
 msgid "New Message"
-msgstr "Mensagens"
+msgstr "Nova Mensagem"
 
-#: tickets/templates/ticket.html:55
+#: tickets/templates/ticket.html:68
+msgid "Start"
+msgstr "Iniciar"
+
+#: tickets/templates/ticket.html:69
+msgid "Suspend"
+msgstr "Suspender"
+
+#: tickets/templates/ticket.html:70
+msgid "Stop"
+msgstr "Parar"
+
+#: tickets/templates/ticket.html:71
+msgid "Close"
+msgstr "Fechar"
+
+#: tickets/templates/ticket.html:74
 msgid "Discussion Board"
 msgstr "Quadro de Discussão"
 
-#: tickets/templates/ticket.html:60
+#: tickets/templates/ticket.html:79
 msgid "Written In"
 msgstr "Escrito Em"
 
-#: tickets/templates/ticket.html:62
+#: tickets/templates/ticket.html:81
 #, fuzzy
 #| msgid "Messages"
 msgid "Message"
 msgstr "Mensagens"
 
-#: tickets/templates/ticketform.html:19
-#, fuzzy
-#| msgid "New Ticket"
+#: tickets/templates/ticketform.html:25
 msgid "Add Ticket"
 msgstr "Novo Ticket"
+
+#: tickets/templates/ticketmessageform.html:13
+#, fuzzy
+#| msgid "Messages"
+msgid "Ticket Message"
+msgstr "Mensagens do Ticket"
+
+#: tickets/templates/ticketmessageform.html:19
+#, fuzzy
+#| msgid "Messages"
+msgid "Add Message"
+msgstr "Incluir Mensagem"

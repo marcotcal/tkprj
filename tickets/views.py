@@ -19,7 +19,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.base import TemplateView
 
-from .models import Ticket, TicketMessage
+from .models import Ticket, TicketMessage, TicketStatus, TicketStatusChangeLog
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
@@ -64,7 +64,8 @@ class ShowTicket(DetailView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(ShowTicket, self).get_context_data(**kwargs)
-		context['ticket_messages'] = TicketMessage.objects.filter(ticket=self.kwargs['pk']).order_by('creation_time')        
+		context['ticket_messages'] = TicketMessage.objects.filter(ticket=self.kwargs['pk']).order_by('creation_time')
+		context['ticket_status_log'] = TicketStatusChangeLog.objects.filter(ticket=self.kwargs['pk']).order_by('log_time')       
 		return context	
 	
 class CreateTicket(CreateView):
@@ -83,6 +84,7 @@ class CreateTicket(CreateView):
 		fields['priority'] = 1
 		fields['group'] = self.request.user.groups.all()[0]	 
 		fields['user'] = self.request.user
+		fields['updated_by'] = self.request.user
 
 		return fields		
 					
@@ -92,7 +94,10 @@ class CreateTicket(CreateView):
 		return HttpResponseRedirect(self.get_success_url())					
 					
 	def get_success_url(self):		
-		return reverse('list',kwargs = {'group_id':self.group_id})
+		if self.group_id == None:
+			return reverse('index')
+		else:			
+			return reverse('list',kwargs = {'group_id':self.group_id})
 			
 class CreateTicketMessage(CreateView):
 	form_class = TicketMessageForm	
@@ -111,14 +116,23 @@ class CreateTicketMessage(CreateView):
 		
 class ChangeTicketStatus(UpdateView):
 	form_class = ChangeTicketStatusForm
-	template_name = 'ticketform.html'
+	template_name = 'ticketformstatus.html'
 	model = Ticket 
 	
 	def get_initial(self):
 			fields = super(ChangeTicketStatus, self).get_initial()
 			fields['begin_time'] = datetime.datetime.now()			
+			fields['status'] = self.kwargs["status_id"]		
+			fields['updated_by'] = self.request.user							
 			return fields;
-	
+			
+	def get_form(self, *args, **kwargs):
+		form = super(ChangeTicketStatus, self).get_form(*args, **kwargs)
+		form.new_status = TicketStatus.objects.get(pk=self.kwargs["status_id"]).description
+		form.fields['description'].widget.attrs['readonly'] = True
+		form.fields['detailed'].widget.attrs['readonly'] = True
+		return form
+					
 	def get_success_url(self):		
 		return reverse('ticket-detail',kwargs = {'pk':self.kwargs["pk"]})	
 		

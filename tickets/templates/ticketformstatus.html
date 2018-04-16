@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load i18n %}	
+{% block content %}
+
+	<div class="row">
+	
+		<div class="col-xs-4 col-md-4"></div>
+  	
+  		<div class="col-xs-4 col-md-4">
+  			{% if form.errors %}    
+    			{%	for error in form.non_field_errors %}
+        			<div class="alert alert-danger">
+           	 	<strong>{{ error|escape }}</strong>
+        			</div>
+    			{% endfor %}
+			{% endif %}
+			<h3>{% trans 'The ticket state will change to' %}: {{form.new_status}}</h3>
+   		<form role="form" method="post">
+      		{% csrf_token %}
+        		{% bootstrap_form form %}
+         	{% buttons %}
+            	<button type="submit" class="btn btn-primary">
+   					{% trans 'Change State' %}
+    			  	</button>
+    			  	<a href="{{ view.get_success_url }}" class="btn btn-default">{% trans 'Cancel' %}</a>
+           	{% endbuttons %}
+       	</form>       	
+   	</div>
+
+		<div class="col-xs-4 col-md-4"></div>
+
+	</div>
+ 
+{% endblock %}    

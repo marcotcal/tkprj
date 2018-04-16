@@ -31,19 +31,25 @@ class TicketForm(ModelForm):
 	
 	class Meta:
 		model = Ticket
-		fields = ["id","creation_time","group","user","status","priority","ticket_type","description","detailed",]
+		fields = ["id","creation_time","group","user","status","priority","ticket_type","description","detailed","updated_by"]
 		widgets = {			
 			'creation_time' : forms.HiddenInput,
-			'user' : forms.HiddenInput,		
+			'status': forms.HiddenInput,
+			'user' : forms.HiddenInput,
+			'updated_by' : forms.HiddenInput,				
 		}				
 
 class ChangeTicketStatusForm(ModelForm):
 	
+	new_status = "teste" 	
+		
 	class Meta:
 		model = Ticket
-		fields = ["id","begin_time","status","description","detailed",]
+		fields = ["id","begin_time","status","description","detailed","updated_by"]
 		widgets = {			
-			'begin_time' : forms.HiddenInput,		
+			'begin_time' : forms.HiddenInput,
+			'status' : forms.HiddenInput, 	
+			'updated_by' : forms.HiddenInput,	
 		}				
 				
 class TicketMessageForm(ModelForm):
