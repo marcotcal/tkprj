@@ -42,7 +42,7 @@
               <li><a href="#">{% trans 'Knowledge Base' %}</a></li>              
               {% if user.is_authenticated %}
               {% if user.is_staff %}
-              <li><a href="#">{% trans 'Administration' %}</a></li>
+              <li><a href="/admin">{% trans 'Administration' %}</a></li>
               {% endif %}
               <li><a href="/tickets/ticket/add">{% trans 'New Ticket' %}</a></li>
               <li class="dropdown">
