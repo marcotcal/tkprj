@@ -85,7 +85,7 @@ Coming soon !!
 * [Python 3](https://www.python.org/download/releases/3.0/) - Programming language used at this project
 * [Django](https://www.djangoproject.com/) - The web framework for perfectionists with deadlines.
 * [PostgreSQL](https://www.postgresql.org/) - The world's most advanced open source database
-* [Vi](https://www.vim.org/) - Using a free version of vi is not a sin but a penance. (Richard Stallman, a priest of Church of Emacs)
+* [Vi](https://www.vim.org/) - «Using a free version of vi is not a sin but a penance.» (Richard Stallman, a priest of Church of Emacs)
 
 ## Contributing
 
