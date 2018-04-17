@@ -39,7 +39,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="/tickets/">Home</a></li>
-              <li><a href="#">{% trans 'Knowledge Base' %}</a></li>              
+              <!--<li><a href="#">{% trans 'Knowledge Base' %}</a></li> Future -->              
               {% if user.is_authenticated %}
               {% if user.is_staff %}
               <li><a href="/admin">{% trans 'Administration' %}</a></li>
@@ -49,7 +49,8 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Lists' %} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#">{% trans 'Opened' %}</a></li>
-                  <li><a href="#">{% trans 'Closed Last Days' %} </a></li>
+                  <li><a href="/tickets/10/6">{% trans 'Closed Last 10 Days' %} </a></li>
+                  <li><a href="/tickets/10/4">{% trans 'Canceled Last 10 Days' %} </a></li>
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">{% trans 'Statistics' %} </li>
                   <li><a href="#">{% trans 'Solution Times' %} </a></li>

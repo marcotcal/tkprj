@@ -6,18 +6,22 @@
 {% load tickets_extras %}
 {% block content %}
 
-	<div class="jumbotron">
-		<h1>{% trans 'Tickets System' %}</h1>
-  		<p>{% trans 'Wellcome to the Tickets System. Here You can create tickets requesting bug solutions, tasts and new features' %}</p>
-	</div>
-
 	<div class='container'>
+	<div class="row">
+ 		<div class="col-xs-12 col-md-12">
+ 			<h3>{% trans 'Tickets' %}</h3>
+ 			<h4>{% trans 'Choose the group to obtain a list for state ' %} 
+ 			       <span class="label label-default">{{status_description}}</span> 
+ 			       {% trans ' in the last ' %} {{days}} {% trans ' days ' %}
+ 			</h4>
+ 		</div>
+ 	</div>
 	<div class="row">
  		<div class="col-xs-3 col-md-3">
  			{% if user.is_authenticated %}
  				<h4>{% trans 'My Group(s)' %}</h4>
  				{% for group in user.groups.all %}
- 					<h5><a href='./list/group/i/{{group.id}}/e/6'>{{group.name}}</h5>
+ 					<h5><a href='/tickets/list/i/{{days}}/i/{{group.id}}/i/{{status_id}}'>{{group.name}}</h5>
  				{% endfor %}
  			{% endif %}
  		</div>

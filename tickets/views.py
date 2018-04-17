@@ -4,6 +4,7 @@
         Date    : 24-03-2018
         License : GPL Ver. 3
 '''
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import LoginForm, TicketForm, TicketMessageForm, ChangeTicketStatusForm
@@ -23,7 +24,27 @@ from .models import Ticket, TicketMessage, TicketStatus, TicketStatusChangeLog
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
-import datetime
+from datetime import datetime, timedelta
+
+##
+## Index Views - Shows the groups assigned to the user
+## 
+class IndexView(TemplateView):
+	template_name = "index.html"
+	        
+	def get_context_data(self, **kwargs):
+		context = super(IndexView, self).get_context_data(**kwargs)		
+		return context  	
+	
+class IndexStatusView(TemplateView):
+	template_name = "index_status.html"
+	        
+	def get_context_data(self, **kwargs):
+		context = super(IndexStatusView, self).get_context_data(**kwargs)
+		status_id = self.kwargs["status_id"]
+		description = TicketStatus.objects.get(pk=status_id).description
+		context['status_description'] = description  		
+		return context  	
 
 class TicketList(ListView):
 	template_name = "list.html"
@@ -31,32 +52,54 @@ class TicketList(ListView):
 	context_object_name = "ticket_list"	
 	paginate_by = 10
 								
-	def get_queryset(self):			 	
-		return Ticket.objects.filter(group=self.kwargs["group_id"]).order_by("priority","creation_time")					
+	def get_queryset(self):
+		filters = {}
+		excludes = {}
+		
+		if "group_id" in self.kwargs:
+			if self.kwargs["ei_group"] == 'i':
+				filters["group_id"] = self.kwargs["group_id"]
+			else:
+				excludes["group_id"] = self.kwargs["group_id"]				
+		if "status_id" in self.kwargs:
+			if self.kwargs["ei_status"] == 'i':				
+				filters["status_id"] = self.kwargs["status_id"]
+			else:	
+				excludes["status_id"] = self.kwargs["status_id"]
+		if "days" in self.kwargs:
+			if self.kwargs["ei_days"] == 'i':
+				filters["creation_time__gte"] = datetime.now() - timedelta(days=self.kwargs["days"])
+			else:
+				excludes["creation_time__gte"] = datetime.now() - timedelta(days=self.kwargs["days"])
+						
+		if filters != {} and excludes != {}:										
+			tk = Ticket.objects.filter(**filters).exclude(**excludes)
+		elif filters == {} and excludes != {}:
+			tk = Ticket.objects.exclude(**excludes)
+		else:						
+			tk = Ticket.objects.filter(**filters)
+								
+		return tk.order_by("priority","creation_time")
 					
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
-		group_id	= self.kwargs["group_id"]
-		user = self.request.user
+		if "group_id" in self.kwargs:		
+			group_id	= str(abs(int(self.kwargs["group_id"])))
+			user = self.request.user
 		
-		users_in_group = Group.objects.get(pk=group_id).user_set.all()		
+			users_in_group = Group.objects.get(pk=group_id).user_set.all()		
 		
-		if user in users_in_group:
-			context.update({"valid_group":True})
-			name = Group.objects.get(pk=group_id).name									
-		else:
-			context.update({"valid_group":False})
-			name = ""
-									
-		context.update({"group_name":name})
+			if user in users_in_group:
+				context.update({"valid_group":True})
+				name = Group.objects.get(pk=group_id).name									
+			else:
+				context.update({"valid_group":False})
+				name = ""
+			context.update({"group_name":name})
+		else:							
+			context.update({"group_name":""})
+			
 		return context
-
-class IndexView(TemplateView):
-	template_name = "index.html"
-	        
-	def get_context_data(self, **kwargs):
-		context = super(IndexView, self).get_context_data(**kwargs)		
-		return context  	
 	
 class ShowTicket(DetailView):
 	template_name = "ticket.html"
@@ -77,7 +120,7 @@ class CreateTicket(CreateView):
 
 	def get_initial(self):
 		fields = super(CreateTicket, self).get_initial()		
-		fields['creation_time'] = datetime.datetime.now()
+		fields['creation_time'] = datetime.now()
 		fields['begin_time'] = None
 		fields['close_time'] = None
 		fields['status'] = 1
@@ -97,7 +140,7 @@ class CreateTicket(CreateView):
 		if self.group_id == None:
 			return reverse('index')
 		else:			
-			return reverse('list',kwargs = {'group_id':self.group_id})
+			return reverse('list',kwargs = {'ei_group':'i','group_id':self.group_id,'ei_status':'e','status_id':6})
 			
 class CreateTicketMessage(CreateView):
 	form_class = TicketMessageForm	
@@ -106,7 +149,7 @@ class CreateTicketMessage(CreateView):
 	def get_initial(self):
 		fields = super(CreateTicketMessage, self).get_initial()
 		fields['ticket'] = self.kwargs["ticket_id"]
-		fields['creation_time'] = datetime.datetime.now()
+		fields['creation_time'] = datetime.now()
 		fields['user'] = self.request.user
 
 		return fields		
@@ -121,7 +164,7 @@ class ChangeTicketStatus(UpdateView):
 	
 	def get_initial(self):
 			fields = super(ChangeTicketStatus, self).get_initial()
-			fields['begin_time'] = datetime.datetime.now()			
+			fields['begin_time'] = datetime.now()			
 			fields['status'] = self.kwargs["status_id"]		
 			fields['updated_by'] = self.request.user							
 			return fields;
