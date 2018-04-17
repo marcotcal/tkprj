@@ -80,5 +80,36 @@ Enjoy :)
 
 Coming soon !!
 
+## Built With
+
+* [Python 3](https://www.python.org/download/releases/3.0/) - Programming language used at this project
+* [Django](https://www.djangoproject.com/) - The web framework for perfectionists with deadlines.
+* [PostgreSQL](https://www.postgresql.org/) - The world's most advanced open source database
+* [Vi](https://www.vim.org/) - Using a free version of vi is not a sin but a penance. (Richard Stallman, a priest of Church of Emacs)
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/marcotcal/tkprj/tags). 
+
+## Authors
+
+* **Marco Túlio Castro** - *Initial work* - [marcotcal](https://github.com/marcotcal)
+
+See also the list of [contributors](https://github.com/marcotcal/tkprj/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the GPL 3 License - see the [GNU Public License V3](https://www.gnu.org/licenses/gpl-3.0.txt) file for details
+
+## Acknowledgments
+
+* Dum Dum for all the support. 
+
+
+
 
 
