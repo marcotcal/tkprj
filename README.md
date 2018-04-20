@@ -78,7 +78,127 @@ Enjoy :)
 
 ## Production Environment
 
-Coming soon !!
+The following considerations are for a production environment using an Apache web server.
+
+First install mod_wsgi from source or from your distribution repository.
+
+**Important** Be shure the mod_wsgi version is compatible with python version you use (2 or 3)
+
+fisrt go to your server root directory and clone the project than run the following commands:
+
+```
+cd /srv/www/htdocs
+git clone https://github.com/marcotcal/tkprj
+cd tkprj
+python3 -m virtualenv venv
+source venv/bin/activate
+pip3 install django
+pip3 install django-bootstrap3
+pip3 install django-bootstrap-static
+pip3 install psycopg2-binary
+```
+
+This is the time to create you production database and a schema named tickets
+
+```
+python3 manage.py migrate
+python3 manage.py makemigrations tickets
+python3 manage.py migrate tickets
+python3 manage.py loaddata tickets/initial_data/db.status.json
+python3 manage.py loaddata tickets/initial_data/db.priority.json
+python3 manage.py loaddata tickets/initial_data/db.type.json 
+```
+
+If there is an error message comment the trigger creation sequence (I did not fixed it yet, I'm accepting sugestions)
+run the last sequence, uncoment and run the last sequence again
+
+Continuing:
+
+```
+python3 manage.py createsuperuser
+```
+
+Follow the instructions (name, email, passwords)
+
+Test the instalation:
+
+```
+python3 manage.py runserver
+
+[crtl]+[c]
+```
+
+if it is ok...
+
+```
+deactivate
+```
+
+**Now you have to configure the Apache server.**
+
+This is my virtual host configuration
+
+```
+<VirtualHost *:80>
+
+    ServerName  www.mysite.com
+    ServerAdmin marco.castro@mysite.com
+
+    Alias /static/  /srv/www/htdocs/tkprj/tickets/static/
+
+    Alias /media/  /srv/www/htdocs/tkprj/run/media/
+
+    WSGIScriptAlias / /srv/www/htdocs/tkprj/tkprj/wsgi.py
+
+    WSGIDaemonProcess   tkprj  python-path=/srv/www/htdocs/tkprj:/srv/www/htdocs/tkprj/venv/lib64/python3.4/site-packages
+
+    WSGIProcessGroup    tkprj
+
+    <Directory /srv/www/htdocs/tkprj/run/static>
+        Options -Indexes
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    <Directory /srv/www/htdocs/tkprj/run/media>
+        Options -Indexes
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    LogLevel warn
+
+    ErrorLog    /srv/www/htdocs/tkprj/tkprj_error.log
+    CustomLog   /srv/www/htdocs/tkprj/tkprj_access.log combined
+</VirtualHost>
+
+```  
+
+Make shure you have a this on your apache configuration
+
+(you must adatp it to your server system)
+
+```
+LoadModule wsgi_module                    /usr/lib64/apache2/mod_wsgi.so
+```  
+
+include this lines on your settings file: 
+
+This is important for the css and javascript static files 
+
+```
+STATIC_ROOT = '/srv/www/htdocs/tkprj/tickets/static'
+STATIC_URL = '/static/'
+```
+
+run on the virtual environment
+
+
+```
+python3 manage.py collectstatic
+```
+
+
 
 ## Built With
 
