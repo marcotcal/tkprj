@@ -5,3 +5,4 @@
 **/*.pyc
 **/*.log
 **/venv
+tkprj/settings.py
