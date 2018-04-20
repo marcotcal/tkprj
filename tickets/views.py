@@ -1,6 +1,6 @@
 '''
         Project : Ticket System
-        Author  : Marco Túlio Castro
+        Author  : Marco Tulio Castro
         Date    : 24-03-2018
         License : GPL Ver. 3
 '''

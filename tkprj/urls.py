@@ -20,6 +20,7 @@ admin.site.site_header = 'Tickets Applications'
 
 urlpatterns = [
     path('tickets/', include('tickets.urls')),
+    path('', include('tickets.urls')),
     path('admin/', admin.site.urls),
 ]
 

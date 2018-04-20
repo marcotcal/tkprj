@@ -2,3 +2,6 @@
 **/migrations/
 **/*~
 **/*.mo
+**/*.pyc
+**/*.log
+**/venv
