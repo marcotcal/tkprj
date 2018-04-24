@@ -11,20 +11,38 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+# the file settings_secret contains a dict secret_vars with all senssible information 
+# used on settings file
+# of course it is not on github repository
+from .settings_secret import secret_vars
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'alia2%(&+8i2&th8kira0lya60(!z%zis*ec)gzmv)&94s0-oz'
+# Use the following  command to generate your secret key
+#
+# python manage.py generate_secret_key [--replace] [secretkey.txt]
+#
+# and use this to keep it secret 
+#
+# with open('/path/to/the/secretkey.txt') as f:
+#    SECRET_KEY = f.read().strip()
+
+SECRET_KEY = secret_vars["SECRET_KEY"] 
+EMAIL_HOST = secret_vars["EMAIL_HOST"]
+EMAIL_HOST = secret_vars["EMAIL_HOST"] 
+EMAIL_PORT = secret_vars["EMAIL_PORT"] 
+EMAIL_HOST_USER = secret_vars["EMAIL_HOST_USER"] 
+EMAIL_HOST_PASSWORD = secret_vars["EMAIL_HOST_PASSWORD"] 
+EMAIL_USE_TLS = secret_vars["EMAIL_USE_TLS"] 
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
 
 ALLOWED_HOSTS = [
    'tickets.qvaliz.pt',

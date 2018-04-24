@@ -84,7 +84,7 @@ class TicketList(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
 		if "group_id" in self.kwargs:		
-			group_id	= str(abs(int(self.kwargs["group_id"])))
+			group_id = str(abs(int(self.kwargs["group_id"])))
 			user = self.request.user
 		
 			users_in_group = Group.objects.get(pk=group_id).user_set.all()		

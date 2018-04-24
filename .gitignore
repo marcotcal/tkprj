@@ -5,3 +5,8 @@
 **/*.pyc
 **/*.log
 **/venv
+tkprj/settings_secret.py
+tickets/static/admin/
+tickets/static/bootstrap/
+tickets/static/fontawesome/
+
