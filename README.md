@@ -58,7 +58,7 @@ python3 manage.py loaddata tickets/initial_data/db.priority.json
 python3 manage.py loaddata tickets/initial_data/db.type.json
 python3 manage.py createsuperuser (follow the instructions)
 
-python3 manage.py runserver
+python3 manage.py runserver --settings=tkprj.devel-settings
 ```
 
 use 
@@ -108,6 +108,7 @@ python3 manage.py loaddata tickets/initial_data/db.status.json
 python3 manage.py loaddata tickets/initial_data/db.priority.json
 python3 manage.py loaddata tickets/initial_data/db.type.json 
 ```
+python3 manage.py collectstatic
 
 If there is an error message comment the trigger creation sequence (I did not fixed it yet, I'm accepting sugestions)
 run the last sequence, uncoment and run the last sequence again
