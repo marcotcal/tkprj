@@ -7,6 +7,6 @@ class TicketsConfig(AppConfig):
 	verbose_name = 'Tickets'
 	
 	def ready(self):
-		
+		import tickets.signals
 		post_migrate.connect(create_partition_triggers, sender=self)
 		

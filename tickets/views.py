@@ -11,6 +11,7 @@ from .forms import LoginForm, TicketForm, TicketMessageForm, ChangeTicketStatusF
 from django.views.generic import FormView, RedirectView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
+from django.utils.translation import gettext as _
 
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
@@ -23,8 +24,9 @@ from django.views.generic.base import TemplateView
 from .models import Ticket, TicketMessage, TicketStatus, TicketStatusChangeLog
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-
+from django.core.mail import send_mail
 from datetime import datetime, timedelta
+from django.conf import settings
 
 ##
 ## Index Views - Shows the groups assigned to the user
@@ -130,7 +132,7 @@ class CreateTicket(CreateView):
 		fields['updated_by'] = self.request.user
 
 		return fields		
-					
+						
 	def form_valid(self, form):
 		self.object = form.save()
 		self.group_id = self.object.group.id
@@ -163,20 +165,34 @@ class ChangeTicketStatus(UpdateView):
 	model = Ticket 
 	
 	def get_initial(self):
-			fields = super(ChangeTicketStatus, self).get_initial()
-			fields['begin_time'] = datetime.now()			
-			fields['status'] = self.kwargs["status_id"]		
-			fields['updated_by'] = self.request.user							
-			return fields;
+		fields = super(ChangeTicketStatus, self).get_initial()					
+		fields['status'] = self.kwargs["status_id"]		
+		fields['updated_by'] = self.request.user							
+		return fields;
 			
 	def get_form(self, *args, **kwargs):
 		form = super(ChangeTicketStatus, self).get_form(*args, **kwargs)
-		form.new_status = TicketStatus.objects.get(pk=self.kwargs["status_id"]).description
+		form.new_status = TicketStatus.objects.get(pk=self.kwargs["status_id"]).description		
 		form.fields['description'].widget.attrs['readonly'] = True
 		form.fields['detailed'].widget.attrs['readonly'] = True
 		return form
-					
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+
+		# generate email for the interveners			
+		tk = Ticket.objects.get(id=self.kwargs["pk"])
+		st = TicketStatus.objects.get(id=self.kwargs["status_id"])
+		message = _("The ticket ") + str(tk.id) + " - " + tk.description + \
+					 _(" had the status changed to ") + st.description + _(" at ") + datetime.now().strftime("%d-%m-%Y %H:%M")					 		
+		email_to = []
+		email_to.append(self.request.user.email)		
+		email_to.append(tk.user.email)
+		send_mail(_("Ticket status changed") + " : " + tk.description , message,settings.DEFAULT_FROM_EMAIL,list(set(email_to)),fail_silently=False)    
+
+		return super(ChangeTicketStatus, self).post(request, *args, **kwargs)
+     					
 	def get_success_url(self):		
 		return reverse('ticket-detail',kwargs = {'pk':self.kwargs["pk"]})	
 		
-	
+

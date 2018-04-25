@@ -11,6 +11,7 @@ from django.forms.formsets import BaseFormSet, formset_factory
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext as _
 from .models import Ticket, TicketMessage
+import logging
 
 class LoginForm(forms.Form):
 	username = forms.CharField(required=True, label=_('User Name'))
@@ -45,13 +46,13 @@ class ChangeTicketStatusForm(ModelForm):
 		
 	class Meta:
 		model = Ticket
-		fields = ["id","begin_time","status","description","detailed","updated_by"]
-		widgets = {			
-			'begin_time' : forms.HiddenInput,
+		fields = ["id","status","description","detailed","updated_by"]
+		widgets = {							 							
 			'status' : forms.HiddenInput, 	
 			'updated_by' : forms.HiddenInput,	
-		}				
-				
+		}			
+		
+		
 class TicketMessageForm(ModelForm):
 	
 	class Meta:

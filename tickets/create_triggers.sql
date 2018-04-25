@@ -9,12 +9,18 @@ CREATE OR REPLACE FUNCTION tickets.write_status_log()
 $BODY$
 BEGIN
   		
-  	IF new.status_id != old.status_id THEN
-  		INSERT INTO tickets.ticket_change_log (ticket_id, log_time, status_from_id, status_to_id, user_id)
-		VALUES (new.id, current_timestamp, old.status_id, new.status_id, new.updated_by_id);
-	END IF;
+    IF new.status_id != old.status_id THEN
+        IF new.status_id = 2 AND old.status_id != 2 AND old.begin_time IS NULL THEN
+           new.begin_time = current_timestamp;
+        END IF;  	
+        IF new.status_id = 6 AND old.status_id != 6 THEN
+            new.close_time = current_timestamp;
+        END IF;
+        INSERT INTO tickets.ticket_change_log (ticket_id, log_time, status_from_id, status_to_id, user_id)
+        VALUES (new.id, current_timestamp, old.status_id, new.status_id, new.updated_by_id);
+    END IF;
 	
- 	RETURN new;
+    RETURN new;
    
 END;
 $BODY$

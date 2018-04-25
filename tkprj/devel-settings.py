@@ -11,10 +11,25 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-# the file settings_secret contains a dict secret_vars with all senssible information 
-# used on settings file
-# of course it is not on github repository
 from .settings_secret import secret_vars
+
+"""
+ The file settings_secret contains a dict secret_vars with all senssible information 
+ used on settings file
+ of course it is not on github repository
+ Example of settings_secret.py content : 
+
+secret_vars = {
+ 'EMAIL_HOST':'mail.yourdomain.com',
+ 'EMAIL_PORT':25,
+ 'EMAIL_HOST_USER':'user@yourdomain.com',
+ 'EMAIL_HOST_PASSWORD':'***********',
+ 'EMAIL_USE_TLS':True,
+ 'DEFAULT_FROM_EMAIL':'suportuser@yourdomain.com',
+ 'SECRET_KEY':'*****************************************',
+}
+"""
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -161,7 +176,7 @@ USE_TZ = True
 #STATIC_ROOT = os.path.join(PROJECT_DIR, 'tickets/static') 
 STATIC_URL = '/static/'
 
-DEFAULT_FROM_EMAIL = 'geral@qvaliz.pt'
+DEFAULT_FROM_EMAIL = secret_vars["DEFAULT_FROM_EMAIL"]
 
 BOOTSTRAP3 = {
 
